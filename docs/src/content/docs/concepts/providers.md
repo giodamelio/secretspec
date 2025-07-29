@@ -10,6 +10,7 @@ Providers are pluggable storage backends that handle the storage and retrieval o
 | Provider | Description | Read | Write | Encrypted |
 |----------|-------------|------|-------|-----------|
 | **keyring** | System credential storage (macOS Keychain, Windows Credential Manager, Linux Secret Service) | ✓ | ✓ | ✓ |
+| **systemd-creds** | Systemd encrypted credentials with user/system scope support | ✓ | ✓ | ✓ |
 | **dotenv** | Traditional `.env` file in your project directory | ✓ | ✓ | ✗ |
 | **env** | Read-only access to existing environment variables | ✓ | ✗ | ✗ |
 | **onepassword** | Integration with OnePassword password manager | ✓ | ✓ | ✓ |
@@ -59,6 +60,9 @@ $ secretspec run --provider "onepassword://Personal/Development" -- npm start
 
 # Use a specific dotenv file
 $ secretspec run --provider "dotenv:/home/user/work/.env" -- npm test
+
+# Use systemd-creds with system scope
+$ secretspec run --provider "systemd-creds:///etc/credstore.encrypted?scope=system" -- npm start
 ```
 
 ## Next Steps

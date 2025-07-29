@@ -20,6 +20,7 @@
 //! - [`EnvProvider`]: Environment variables (read-only)
 //! - [`OnePasswordProvider`]: OnePassword integration
 //! - [`LastPassProvider`]: LastPass integration
+//! - [`SystemdCredsProvider`]: Systemd encrypted credentials
 //!
 //! ## URI-Based Configuration
 //!
@@ -30,6 +31,7 @@
 //! dotenv://.env.production
 //! onepassword://vault/items
 //! lastpass://folder
+//! systemd-creds:///etc/secrets
 //! ```
 //!
 //! ## Example
@@ -62,6 +64,7 @@ pub mod env;
 pub mod keyring;
 pub mod lastpass;
 pub mod onepassword;
+pub mod systemd_creds;
 #[macro_use]
 pub mod macros;
 

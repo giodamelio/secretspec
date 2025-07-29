@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- New systemd-creds provider for encrypted credential storage using systemd's credential encryption system
+  - Supports both user and system scope encryption
+  - File-based storage with project/profile namespacing
+  - URI format: `systemd-creds://directory` with optional `?scope=user` or `?scope=system`
+
 ## [0.3.1] - 2025-07-28
 
 ### Fixed

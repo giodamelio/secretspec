@@ -236,6 +236,16 @@ mod integration_tests {
                     .expect("Should create dotenv provider with path");
                 (provider, Some(temp_dir))
             }
+            "systemd-creds" => {
+                let temp_dir = TempDir::new().expect("Create temp directory");
+                let creds_path = temp_dir.path().join("creds");
+                // Use user scope for tests to avoid requiring elevated privileges
+                let provider_spec =
+                    format!("systemd-creds:{}?scope=user", creds_path.to_str().unwrap());
+                let provider = Box::<dyn Provider>::try_from(provider_spec.as_str())
+                    .expect("Should create systemd-creds provider with path");
+                (provider, Some(temp_dir))
+            }
             _ => {
                 let provider = Box::<dyn Provider>::try_from(provider_name)
                     .expect(&format!("{} provider should exist", provider_name));

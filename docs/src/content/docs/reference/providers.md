@@ -66,6 +66,21 @@ onepassword+token://user:op_token@SecureVault   # Service account
 **Prerequisites**: `op` CLI, authenticated with `op signin`
 **Storage**: Item name `{project}/{key}`, tags `automated`, `{project}`
 
+## Systemd Credentials Provider
+
+**URI**: `systemd-creds://directory` - Uses systemd credential encryption (user scope default, add `?scope=system` for system scope)
+
+```bash
+systemd-creds:///etc/credstore.encrypted?scope=system  # System scope with absolute path
+systemd-creds://./dev-creds                            # User scope (default) with relative path
+systemd-creds:///custom/path                           # User scope (default) with absolute path
+```
+
+**Features**: Read/write, strong encryption, user/system isolation, profiles
+**Prerequisites**: `systemd-creds` command, proper directory permissions
+**Storage**: File name `{project}-{profile}-{key}.cred` with systemd encryption
+**Scope**: System scope (may require sudo) or user scope (development)
+
 ## Provider Selection
 
 ### Command Line
@@ -74,17 +89,20 @@ onepassword+token://user:op_token@SecureVault   # Service account
 secretspec get API_KEY --provider keyring
 secretspec get API_KEY --provider dotenv
 secretspec get API_KEY --provider env
+secretspec get API_KEY --provider systemd-creds
 
 # URIs with configuration
 secretspec get API_KEY --provider dotenv:/path/to/.env
 secretspec get API_KEY --provider onepassword://vault
 secretspec get API_KEY --provider "onepassword://account@vault"
+secretspec get API_KEY --provider "systemd-creds:///etc/credstore.encrypted?scope=system"
 ```
 
 ### Environment Variables
 ```bash
 export SECRETSPEC_PROVIDER=keyring
 export SECRETSPEC_PROVIDER="dotenv:///config/.env"
+export SECRETSPEC_PROVIDER="systemd-creds:///etc/credstore.encrypted?scope=system"
 ```
 
 
@@ -95,5 +113,6 @@ export SECRETSPEC_PROVIDER="dotenv:///config/.env"
 | DotEnv | ❌ Plain text | Local filesystem | ❌ No |
 | Environment | ❌ Plain text | Process memory | ❌ No |
 | Keyring | ✅ System encryption | System keychain | ❌ No |
+| Systemd-creds | ✅ Host/TPM encryption | Local filesystem | ❌ No |
 | LastPass | ✅ End-to-end | Cloud (LastPass) | ✅ Yes |
 | OnePassword | ✅ End-to-end | Cloud (OnePassword) | ✅ Yes |
